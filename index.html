@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>💋 ¿Conoces a Vanessa?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      background: #1a1a2e url('https://i.pinimg.com/originals/84/3d/0e/843d0e8d8c9a4f3f6e5f5e5f5e5f5e5f.gif') center/cover;
+      color: white;
+      min-height: 100vh;
+      transition: 0.5s;
+      background-attachment: fixed;
+    }
+
+    /* Bandera LGBT+ en la parte superior */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; height: 8px;
+      background: repeating-linear-gradient(90deg,
+        #ff0018 0%, #ff0018 16%,
+        #ff8c00 16%, #ff8c00 33%,
+        #ff0 33%, #ff0 50%,
+        #008000 50%, #008000 66%,
+        #0000f0 66%, #0000f0 83%,
+        #7f0080 83%, #7f0080 100%);
+      z-index: 100;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 105, 180, 0.3);
+    }
+
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      color: #ff69b4;
+      text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+    }
+
+    .puntaje {
+      font-size: 1.3em;
+      color: #ff69b4;
+      margin: 15px 0;
+    }
+
+    .boton {
+      padding: 12px 25px;
+      margin: 10px;
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 1em;
+    }
+
+    .modo-fiesta {
+      background: #ff69b4;
+      color: white;
+    }
+
+    .reiniciar {
+      background: #00bfff;
+      color: white;
+    }
+
+    .boton:hover {
+      transform: scale(1.05);
+    }
+
+    .pregunta {
+      margin: 25px 0;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      border: 1px solid #ff69b4;
+    }
+
+    .opcion {
+      display: block;
+      padding: 12px;
+      margin: 8px 0;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid #ff69b4;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .opcion:hover {
+      background: rgba(255, 105, 180, 0.3);
+    }
+
+    .opcion.correcta {
+      background: rgba(50, 205, 50, 0.4);
+      border-color: #32cd32;
+    }
+
+    .opcion.incorrecta {
+      background: rgba(255, 69, 0, 0.4);
+      border-color: #ff4500;
+    }
+
+    .resultado {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .correcto {
+      color: #32cd32;
+    }
+
+    .incorrecto {
+      color: #ff4500;
+    }
+
+    .gif-container {
+      display: none;
+      margin: 15px 0;
+    }
+
+    .gif-container img {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 15px;
+      border: 5px solid #ff69b4;
+    }
+
+    .final {
+      display: none;
+      font-size: 1.3em;
+      margin-top: 30px;
+      line-height: 1.6;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 15px;
+      border: 2px dashed #ff69b4;
+    }
+
+    .opinion-container {
+      display: none;
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(255, 105, 180, 0.1);
+      border-radius: 15px;
+      border: 1px dashed #ff69b4;
+    }
+
+    .opinion-container h3 {
+      color: #ff69b4;
+      margin-bottom: 10px;
+    }
+
+    .opinion-container textarea {
+      width: 100%;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 2px solid #ff69b4;
+      border-radius: 10px;
+      color: white;
+      font-size: 1em;
+      resize: vertical;
+      height: 120px;
+      margin-bottom: 10px;
+    }
+
+    .opinion-container button {
+      background: #ff69b4;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>💋 ¿Conoces a Vanessa? 🏳️‍🌈</h1>
+    <div class="puntaje" id="puntaje">Aciertos: 0</div>
+
+    <button class="boton modo-fiesta" onclick="activarFiesta()">🎉 MODO FIESTA</button>
+    <button class="boton reiniciar" onclick="reiniciar()">🔄 REINICIAR EL JUEGO</button>
+
+    <!-- PREGUNTA 1 -->
+    <div class="pregunta">
+      <p>1. ¿Cuál es mi nombre completo?</p>
+      <div class="opciones" id="q1">
+        <div class="opcion" onclick="elegir(this, 'correcta', 'r1')">Vanessa Victoria Ramirez Hernandez</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r1')">Vanessa Sofía López</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r1')">Vanessa Maria de la Cruz</div>
+      </div>
+      <div class="resultado" id="r1"></div>
+    </div>
+
+    <!-- PREGUNTA 2 -->
+    <div class="pregunta">
+      <p>2. ¿Cuántos años tengo?</p>
+      <div class="opciones">
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r2')">23</div>
+        <div class="opcion" onclick="elegir(this, 'correcta', 'r2')">24</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r2')">26</div>
+      </div>
+      <div class="resultado" id="r2"></div>
+    </div>
+
+    <!-- PREGUNTA 3 -->
+    <div class="pregunta">
+      <p>3. ¿Cuál es mi color favorito?</p>
+      <div class="opciones">
+        <div class="opcion" onclick="elegir(this, 'correcta', 'r3')">Azul</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r3')">Verde</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r3')">Negro</div>
+      </div>
+      <div class="resultado" id="r3"></div>
+    </div>
+
+    <!-- PREGUNTA 4 -->
+    <div class="pregunta">
+      <p>4. ¿Quién es mi cantante favorito?</p>
+      <div class="opciones">
+        <div class="opcion" onclick="elegir(this, 'correcta', 'r4')">Britney Spears</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r4')">Rauw Alejandro</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r4')">Lady Gaga</div>
+      </div>
+      <div class="resultado" id="r4"></div>
+    </div>
+
+    <!-- PREGUNTA 5 -->
+    <div class="pregunta">
+      <p>🔥 ¿Cómo me gustan las mujeres?</p>
+      <div class="opciones">
+        <div class="opcion" onclick="elegir(this, 'correcta', 'r5')">Blanquitas, femeninas, tetonas y culonas</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r5')">Altas, flacas y morenas</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r5')">Gorditas, pelo largo, mayores</div>
+      </div>
+      <div class="resultado" id="r5"></div>
+      <div class="gif-container" id="gifContainer">
+        <img src="https://media.giphy.com/media/l0HlRnAWXxnLnUphG/giphy.gif" alt="💋 Beso">
+      </div>
+    </div>
+
+    <!-- PREGUNTA 6 -->
+    <div class="pregunta">
+      <p>6. Si salieras conmigo, ¿qué me regalarías?</p>
+      <div class="opciones">
+        <div class="opcion" onclick="elegir(this, 'correcta', 'r6')">Cerveza y flores</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r6')">Un ramo de rosas</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r6')">Un libro de autoayuda</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r6')">Caer de Parapente</div>
+      </div>
+      <div class="resultado" id="r6"></div>
+    </div>
+
+    <!-- PREGUNTA 7 -->
+    <div class="pregunta">
+      <p>7. Si fueras lesbiana, ¿saldrías conmigo?</p>
+      <div class="opciones">
+        <div class="opcion" onclick="elegir(this, 'correcta', 'r7')">Sí</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r7')">No</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r7')">Tal vez</div>
+      </div>
+      <div class="resultado" id="r7"></div>
+    </div>
+
+    <!-- PREGUNTA 8 -->
+    <div class="pregunta">
+      <p>8. ¿Cuál es mi bebida espirituosa favorita?</p>
+      <div class="opciones">
+        <div class="opcion" onclick="elegir(this, 'correcta', 'r8')">Cerveza</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r8')">Caroreña</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r8')">Anis</div>
+      </div>
+      <div class="resultado" id="r8"></div>
+    </div>
+
+    <!-- PREGUNTA 9 -->
+    <div class="pregunta">
+      <p>9. ¿Cuál es mi comida favorita?</p>
+      <div class="opciones">
+        <div class="opcion" onclick="elegir(this, 'correcta', 'r9')">Parrilla</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r9')">Pizza</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r9')">Pasta con carne molida y salsa</div>
+      </div>
+      <div class="resultado" id="r9"></div>
+    </div>
+
+    <!-- PREGUNTA 10 -->
+    <div class="pregunta">
+      <p>10. ¿Qué serie o novela me tiene obsesionada?</p>
+      <div class="opciones">
+        <div class="opcion" onclick="elegir(this, 'correcta', 'r10')">Rosario Tijeras</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r10')">La Reina del Flow</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r10')">La Reina del Sur</div>
+      </div>
+      <div class="resultado" id="r10"></div>
+    </div>
+
+    <!-- PREGUNTA 11 -->
+    <div class="pregunta">
+      <p>11. ¿En qué ciudad nací?</p>
+      <div class="opciones">
+        <div class="opcion" onclick="elegir(this, 'correcta', 'r11')">Zaraza</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r11')">Maracay</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r11')">Pariaguan</div>
+      </div>
+      <div class="resultado" id="r11"></div>
+    </div>
+
+    <!-- PREGUNTA 12 -->
+    <div class="pregunta">
+      <p>12. ¿Tengo tatuajes?</p>
+      <div class="opciones">
+        <div class="opcion" onclick="elegir(this, 'correcta', 'r12')">Sí</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r12')">No</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r12')">Solo uno pequeño</div>
+      </div>
+      <div class="resultado" id="r12"></div>
+    </div>
+
+    <!-- PREGUNTA 13 -->
+    <div class="pregunta">
+      <p>13. ¿Fecha de Cumple?</p>
+      <div class="opciones">
+        <div class="opcion" onclick="elegir(this, 'correcta', 'r13')">20 de Agosto</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r13')">22 de Agosto</div>
+        <div class="opcion" onclick="elegir(this, 'incorrecta', 'r13')">23 de Agosto</div>
+      </div>
+      <div class="resultado" id="r13"></div>
+    </div>
+
+    <!-- MENSAJE FINAL -->
+    <div class="final" id="finalMensaje">
+      🎉 ¡Felicidades! Obtuviste <span id="total"></span> aciertos.<br>
+      💬 Vanessa es: unica y directa con cara de culo como ella ninguna bby.<br>
+      ❤️ Y sí, le encantan las mujeres... y las cervezas frías como su corazon. 😉<br>
+      <strong>Vanessa Victoria Ramirez Hernandez</strong>
+    </div>
+
+    <!-- CUADRO DE OPINIÓN PERSONAL -->
+    <div class="opinion-container" id="opinionContainer">
+      <h3>✍️ Tu descripción personal de Vanessa</h3>
+      <p>¿Cómo la vez? ¿Qué te transmite? Déjalo aquí:</p>
+      <textarea id="opinionTexto" placeholder="Ej: Vanessa es un sol, muy amigable, amable, honesta, incleible ..."></textarea>
+      <button class="boton" onclick="guardarOpinion()">Enviar Descripción</button>
+    </div>
+  </div>
+
+  <script>
+    let aciertos = 0;
+
+    function elegir(opcion, tipo, idResultado) {
+      const opciones = document.querySelectorAll(`#${idResultado.replace('r', 'q')} .opcion`);
+      opciones.forEach(o => {
+        o.onclick = null;
+        o.classList.remove('correcta', 'incorrecta');
+      });
+      opcion.classList.add(tipo);
+
+      const resultado = document.getElementById(idResultado);
+      if (tipo === 'correcta') {
+        resultado.innerHTML = "✅ ¡Correcto! ¡Eres digna de Vanessa!";
+        aciertos++;
+      } else {
+        resultado.innerHTML = "❌ Incorrecto. Aprende más y vuelve.";
+      }
+      resultado.className = 'resultado ' + (tipo === 'correcta' ? 'correcto' : 'incorrecto');
+
+      document.getElementById("puntaje").innerText = `Aciertos: ${aciertos}`;
+
+      if (idResultado === 'r5' && tipo === 'correcta') {
+        document.getElementById("gifContainer").style.display = "block";
+      }
+
+      if (idResultado === 'r13') {
+        document.getElementById("total").textContent = aciertos;
+        document.getElementById("finalMensaje").style.display = "block";
+        document.getElementById("opinionContainer").style.display = "block";
+      }
+    }
+
+    function activarFiesta() {
+      document.body.classList.add('fiesta');
+      const boton = document.querySelector('.modo-fiesta');
+      boton.disabled = true;
+      boton.innerText = "🔥 ¡ESTÁS EN MODO FIESTA!";
+    }
+
+    function reiniciar() {
+      location.reload();
+    }
+
+    function guardarOpinion() {
+      const opinion = document.getElementById("opinionTexto").value.trim();
+      if (opinion) {
+        console.log("Nueva descripción de Vanessa:", opinion);
+        alert("❤️ ¡Gracias por tu descripción! Quedó guardada con amor 💋");
+      } else {
+        alert("Por favor, escribe algo bonito sobre Vanessa 😏");
+      }
+    }
+  </script>
+</body>
+</html>
